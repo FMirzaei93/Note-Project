@@ -1,0 +1,70 @@
+apply plugin: 'com.android.application'
+
+allprojects{
+    repositories {
+        jcenter()
+        google()
+    }
+}
+
+/*Sdk Version = API Level*/
+android {
+    compileSdkVersion 30
+    //= the vesion of API that app compiled against.
+    //= API Ver.30 = Android 11
+    //This means you can use Android API features included in that version of the API (as well as all previous versions, obviously)
+    buildToolsVersion "30.0.0"
+
+    defaultConfig {
+        applicationId "com.example.note"
+        minSdkVersion 16
+        targetSdkVersion 30
+        /*You should set the targetSdkVersion to the most recent version of Android that you have tested on.
+        Whenever a new version of Android comes out, you will want to update the targetSdkVersion to the latest Android version and test your app to fix any problems.
+        * If you don’t update the targetSdkVersion, Android devices will assume that your app wasn’t tested on the latest version of Android,
+        * so they may introduce some backward-compatibility behavior for your app to make sure your app still looks and feels the way you designed it
+        * for that older version of Android. It gets a little tricky, so the best policy is to always keep your targetSdkVersion up to date with the latest versions of Android.
+         */
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    def lifecycle_version = "2.2.0"
+    def room_vesrion = "2.2.5"
+
+
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation "androidx.cardview:cardview:1.0.0"
+    implementation 'com.google.android.material:material:1.0.0'
+
+
+    //Lifecycle Components
+    //implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
+    //implementation "androidx.lifecycle:lifecycle-livedata:$lifecycle_version"
+    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+
+    //Room Components
+    implementation "androidx.room:room-runtime:$room_vesrion"
+    annotationProcessor "androidx.room:room-compiler:$room_vesrion"
+
+
+
+}

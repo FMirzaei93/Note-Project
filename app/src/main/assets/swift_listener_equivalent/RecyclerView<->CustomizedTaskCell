@@ -1,0 +1,65 @@
+//In both cases we want to do something in our list(Like clicking) and get a result in our UIController(ViewController or Activity).
+//In order to do that we need to create an interface/a protocol with method(s).
+//Maybe we need to pass something during the process, which it will be handled by the method we write in our interface/protocol.
+//And we specify what the method passes in click method of our recyclerView/CustomCell
+//And we determine what the method do in appropriate method in Activity/ViewController.
+
+
+//Swift
+
+class CustomizedTaskCell: UITableViewCell{
+
+        var delegate : TaskCellDelegate?
+
+//When the method of our protocol is going to be called? *****When the button gets clicked******
+//And what this method is going to pass? (self AND completionChanged: checkmarkButton.isSelected)
+    @IBAction func checkmarkButtonPressed(_ sender: Any) {
+        delegate?.taskCell(self, completionChanged: checkmarkButton.isSelected)
+        }
+
+}
+
+
+protocol TaskCellDelegate { // =interface
+        //In order to notify ViewController about what is going on to the cell
+
+        //This function will notify delegate(ViewController) about the completion state change within the cell
+        func taskCell(_ cell : CustomizedTaskCell, completionChanged completion : Bool)
+        }
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//Android
+
+public class NoteAdapter extends RecyclerView.Adapter<com.example.note.NoteAdapter.NoteHolder> {
+
+    private OnItemClickListener onItemClickListener;
+
+
+    //When the method of our interface is going to be called? *****When the viewItem(the whole cardView) gets clicked*****
+    //And what this method is going to pass? notes.get(position)
+        itemView.setOnClickListener(new View.OnClickListener()
+    {
+        @Override
+        public void onClick (View view){
+
+        int position = getAdapterPosition();
+        if (onItemClickListener != null && position != RecyclerView.NO_POSITION)
+            onItemClickListener.onItemClick(notes.get(position));
+
+         }
+    });
+
+
+
+    public interface OnItemClickListener {
+        void onItemClick(Note note);
+    }
+
+
+    public void setOnItemClickListener(OnItemClickListener listener){
+        this.onItemClickListener = listener;
+    }
+
+}

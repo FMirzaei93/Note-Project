@@ -1,0 +1,51 @@
+//Swift
+
+//Tnis methods automatically will be called when the clicking is done.
+
+class ViewController: UIViewController, TaskCellDelegate{
+
+
+        func taskCell(_ cell: CustomizedTaskCell, completionChanged completion: Bool) {
+        //identify indexPath for a cell
+        if let indexPath = tableView.indexPath(for: cell){
+
+        //fetch dataSource for index
+        if let task = hotTaskDataSource(indexPath: indexPath){
+        //update the completion state
+        task.completed = completion
+
+        manageLocalNotifications()
+        updateProgress()
+                }
+            }
+        }
+
+}
+
+///////////////////////////////////////////////////////////////
+
+//Android
+
+public class MainActivity extends AppCompatActivity //OR (implement NoteAdapter.OnItemClickListener) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+
+
+        noteAdapter.setOnItemClickListener(new NoteAdapter.OnItemClickListener() {
+            //or we can easily implement NoteAdapter.OnItemClickListener and then it tells us to implement the "onItemClick" method. like above in swift.
+            //That way, we need to pass "this"(as NoteAdapter.OnItemClickListener) to the constructor of NoteAdapter in order to attach
+            //the activity that we're using the interface method(s) in and the interface we have written in adapter class.
+
+            @Override
+            public void onItemClick(Note note) {
+                Intent intent = new Intent(MainActivity.this, AddNoteActivity.class);
+                intent.putExtra("ClickedNote", note);
+                intent.putExtra("isEdit", true);
+                startActivity(intent);
+
+            }
+        });
+
+
+    }
+}
